@@ -12,16 +12,20 @@
 <body>
     <h1>Welcome To The Gilded Rose</h1>
     <main>
-        <select name="item" id="item">
-            <option disabled hidden selected>Please Select An Item</option>
-            <option id="dexterity">+5 Dexterity Vest</option>
-            <option id="brie">Aged Brie</option>
-            <option id="elixir">Elixir of the Mongoose</option>
-            <option id="sulfuras">Sulfuras, Hand of Ragnaros</option>
-            <option id="backstage">Backstage passes to a TAFKAL80ETC concert</option>
-            <option id="mana">Conjured Mana Cake</option>
-        </select>
-        <p class="dependent"></p>
+        <div class="form">
+            <label for="item-name">What is the name of your item?</label>
+            <input type="text" name="item-name" id="item-name" required>
+            <label for="sell-in">How many days to sell?</label>
+            <input type="number" min="0" max="15" name="sell-in" id="sell-in" required>
+            <label for="quality">What is the quality level?</label>
+            <input type="number" min="0" max="50" name="quality" id="quality" required>
+        </div>
+        <div>
+            <h2>Inventory</h2>
+            <ul class="items-in-inventory">
+
+            </ul>
+        </div>
     </main>
 </body>
 
