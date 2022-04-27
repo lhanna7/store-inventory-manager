@@ -15,6 +15,14 @@ h2 {
     text-align: center;
     font-size: 170%;
     font-weight: bold;
+    color: rgb(34, 109, 34);
+}
+
+h3 {
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+    color: rgb(6, 63, 139);
 }
 
 .form {
@@ -30,11 +38,14 @@ input {
     text-align: center;
     padding: 1%;
     font-size: 100%;
+    background-color: rgba(161, 203, 239, 0.8);
+    border: solid rgba(24, 116, 103, 0.6) 2px;
 }
 
 label {
     padding-bottom: 0.5%;
     font-size: 100%;
+    color: rgb(6, 63, 139);
 }
 
 .titles {
@@ -44,12 +55,6 @@ label {
     margin-bottom: 2%;
     align-content: center;
     font-size: 150%;
-}
-
-h3 {
-    display: flex;
-    flex-direction: row;
-    font-weight: bold;
 }
 
 .items-in-inventory div {
@@ -70,6 +75,10 @@ h3 {
 .butt {
     padding: 1%;
     cursor: pointer;
+    background-image: url(images/bubbles.gif);
+    background-size: 140%;
+    color: white;
+    border: solid rgba(213, 44, 255, 0.6) 2px;
 }
 
 #submit {
@@ -77,6 +86,7 @@ h3 {
     background-image: url(images/bubbles.gif);
     background-size: 140%;
     color: white;
+    border: solid rgba(213, 44, 255, 0.6) 2px;
 }
 
 .img-container {

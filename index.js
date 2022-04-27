@@ -12,16 +12,19 @@ form.addEventListener("submit", (event) => {
         itemName: formData.get(`item-name`),
         itemSell: formData.get(`sell-in`),
         itemQuality: formData.get(`quality`),
+        itemCategory: "none"
     }
 
     const subInventory = document.createElement("div")
     inventory.append(subInventory)
 
     subInventory.innerHTML = `
-    <p>${items.itemName}</p>
-    <p>${items.itemSell}</p>
-    <p>${items.itemQuality}</p>
+    <p class="item-name">${items.itemName}</p>
+    <p class="item-sell">${items.itemSell--}</p>
+    <p class="item-quality">${items.itemQuality--}</p>
     `
+
+    setCategory(items)
 })
 
 const imageContainer = document.querySelector(".img-container")
@@ -49,15 +52,25 @@ function onClickPlus() {
       `
     } else {
         imageBox.innerHTML = `
-       <img src="images/dayone2.jpg" alt="day0" style="width: 30%;">
+       <img src="images/dayone2.jpg" alt="day0" style="width: 70%;">
       `
     }
 }
 
+
 const nextDay = document.querySelector(".next")
 nextDay.addEventListener("click", () => {
-    nextDay.style.color = "blue";
-    onClickPlus()
+    nextDay.style.color = "cyan";
+
+    const sellDiv = document.querySelector(".item-sell")
+    let sellNumber = items.itemSell--
+    sellDiv.textContent = sellNumber
+
+    const qualityDiv = document.querySelector(".item-quality")
+    let qualityNumber = items.itemQuality--
+    qualityDiv.textContent = qualityNumber
+
+    onClickPlus();
 })
 
 function onClickMinus() {
@@ -91,3 +104,13 @@ prevDay.addEventListener("click", () => {
     prevDay.style.color = "red";
     onClickMinus()
 })
+
+function setCategory(items) {
+    if (items.itemName.includes("Aged Brie") || items.itemName.includes("Backstage")) {
+        items.itemCategory = "aged-backstage"
+    } else if (items.itemName.includes("Sulfuras")) {
+        items.itemCategory = "sufluras"
+    } else if (items.itemName.includes("Conjured")) {
+        items.itemCategory = "conjured"
+    }
+}
