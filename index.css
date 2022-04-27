@@ -5,7 +5,7 @@ body {
 }
 
 h1 {
-    font-size: 200%;
+    font-size: 250%;
     text-align: center;
     font-weight: bold;
     margin-top: 2%;
@@ -13,7 +13,7 @@ h1 {
 
 h2 {
     text-align: center;
-    font-size: 150%;
+    font-size: 170%;
     font-weight: bold;
 }
 
@@ -43,6 +43,7 @@ label {
     margin-top: 1.7%;
     margin-bottom: 2%;
     align-content: center;
+    font-size: 150%;
 }
 
 h3 {
@@ -55,6 +56,9 @@ h3 {
     display: flex;
     justify-content: space-around;
     margin-bottom: 2%;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 2%;
+    font-size: 140%;
 }
 
 .butt-container {
@@ -70,6 +74,9 @@ h3 {
 
 #submit {
     cursor: pointer;
+    background-image: url(images/bubbles.gif);
+    background-size: 140%;
+    color: white;
 }
 
 .img-container {

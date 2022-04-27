@@ -37,15 +37,19 @@ function onClickPlus() {
       `
     } else if (clicks == 2) {
         imageBox.innerHTML = `
-        <img src="images/twodays.jpg" alt="day1">
+        <img src="images/twodays.jpg" alt="day2">
       `
     } else if (clicks == 3) {
         imageBox.innerHTML = `
-        <img src="images/threedays.jpg" alt="day1">
+        <img src="images/threedays.jpg" alt="day3">
+      `
+    } else if (clicks >= 4) {
+        imageBox.innerHTML = `
+        <img src="images/somuchlater.jpg" alt="day4">
       `
     } else {
         imageBox.innerHTML = `
-        <img src="images/somuchlater.jpg" alt="day1">
+       <img src="images/dayone2.jpg" alt="day0" style="width: 30%;">
       `
     }
 }
@@ -56,8 +60,34 @@ nextDay.addEventListener("click", () => {
     onClickPlus()
 })
 
+function onClickMinus() {
+    clicks -= 1;
+    if (clicks == 1) {
+        imageContainer.append(imageBox)
+        imageBox.innerHTML = `
+        <img src="images/nextday.jpg" alt="day1">
+      `
+    } else if (clicks == 2) {
+        imageBox.innerHTML = `
+        <img src="images/twodays.jpg" alt="day2">
+      `
+    } else if (clicks == 3) {
+        imageBox.innerHTML = `
+        <img src="images/threedays.jpg" alt="day3">
+      `
+    } else if (clicks >= 4) {
+        imageBox.innerHTML = `
+        <img src="images/somuchlater.jpg" alt="day4">
+      `
+    } else {
+        imageBox.innerHTML = `
+        <img src="images/dayone2.jpg" alt="day0" style="width: 30%;">
+      `
+    }
+}
+
 const prevDay = document.querySelector(".prev")
-nextDay.addEventListener("click", () => {
-    nextDay.style.color = "blue";
+prevDay.addEventListener("click", () => {
+    prevDay.style.color = "red";
     onClickMinus()
 })
