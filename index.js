@@ -5,7 +5,19 @@ const inventory = document.querySelector(".items-in-inventory")
 const imageContainer = document.querySelector(".img-container")
 const prevDay = document.querySelector(".prev")
 const nextDay = document.querySelector(".next")
+const nameInput = document.querySelector("#item-name")
+const qualityInput = document.querySelector("#quality")
 
+nameInput.addEventListener("input", event => {
+  if (nameInput.value.toLowerCase().includes("sulfuras")) {
+    qualityInput.min = 80
+    qualityInput.max = 80
+    qualityInput.value = 80
+  } else {
+    itemQuality.max = 50
+    itemQuality.min = 0
+  }
+})
 
 let item = {}
 let itemBeAnArray = []
@@ -35,6 +47,7 @@ nextDay.addEventListener("click", () => {
   nextDay.style.color = "cyan";
   subtractValues()
   onNextChangeImage();
+  qualityChangeNextDay()
 })
 
 const imageBox = document.createElement("div")
@@ -46,7 +59,6 @@ function onNextChangeImage() {
   imageContainer.append(imageBox)
 }
 
-//this function subs to the same value as the last div
 function subtractValues() {
   itemBeAnArray.forEach(object => {
     const newInventoryItem = document.querySelector(".custom-item")
@@ -58,6 +70,74 @@ function subtractValues() {
     object.itemSell--
     inventory.append(newInventoryItem)
   })
+}
+
+function qualityChangeNextDay() {
+  itemBeAnArray.forEach(object => {
+    if (object.itemCategory === "none") {
+      let qualityDecrement = object.itemQuality - 1
+      object.itemQuality--
+      return qualityDecrement
+    }
+    if (object.itemCategory === "aged") {
+      let qualityIncrement = object.itemQuality + 1
+      object.itemQuality++
+      return qualityIncrement
+    }
+    if (object.itemCategory === "backstage") {
+      let qualityIncrement = object.itemQuality + 1
+      object.itemQuality++
+      return qualityIncrement
+    }
+    if (object.itemCategory === "sulfuras") {
+      return object.itemQuality = 80
+    }
+    if (object.itemCategory === "conjured") {
+      let qualityDecrement = object.itemQuality - 2
+      object.itemQuality--
+      object.itemQuality--
+      return qualityDecrement
+    }
+  })
+}
+
+prevDay.addEventListener("click", () => {
+  prevDay.style.color = "red";
+  onPrevChangeImage()
+  addValues()
+})
+
+function onPrevChangeImage() {
+  clicks -= 1;
+  imageBox.innerHTML = getImage(clicks)
+  imageContainer.append(imageBox)
+}
+
+function addValues() {
+  itemBeAnArray.forEach(object => {
+    const newInventoryItem = document.querySelector(".custom-item")
+    newInventoryItem.innerHTML = `
+    <p class="item-name">${object.itemName}</p>
+    <p class="item-sell">${object.itemSell + 1}</p>
+    <p class="item-quality">${object.itemQuality + 1}</p>
+    `
+    object.itemSell++
+    object.itemQuality++
+    inventory.append(newInventoryItem)
+  })
+}
+
+function getCategory(itemName) {
+  if (itemName.includes("Aged Brie") || itemName.includes("aged brie")) {
+    return "aged"
+  } else if (itemName.includes("Sulfuras") || itemName.includes("sulfuras")) {
+    return "sulfuras"
+  } else if (itemName.includes("Conjured") || itemName.includes("conjured")) {
+    return "conjured"
+  } else if (itemName.includes("Backstage Passes") || itemName.includes("backstage passes")) {
+    return "backstage"
+  } else
+    return "none"
 }
 
 function getImage(clickCount) {
@@ -76,28 +156,5 @@ function getImage(clickCount) {
       break
     default:
       return `<img src="images/somuchlater.jpg" alt="day4">`
-  }
-}
-
-prevDay.addEventListener("click", () => {
-  prevDay.style.color = "red";
-  onPrevChangeImage()
-})
-
-function onPrevChangeImage() {
-  clicks -= 1;
-  imageBox.innerHTML = getImage(clicks)
-  imageContainer.append(imageBox)
-}
-
-function getCategory(itemName) {
-  if (itemName.includes("Aged Brie") || itemName.includes("aged brie")) {
-    return "aged"
-  } else if (itemName.includes("Sulfuras") || itemName.includes("sulfuras")) {
-    return "sulfuras"
-  } else if (itemName.includes("Conjured") || itemName.includes("conjured")) {
-    return "conjured"
-  } else if (itemName.includes("Backstage") || itemName.includes("backstage")) {
-    return "backstage"
   }
 }
