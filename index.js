@@ -2,117 +2,102 @@ const input = document.querySelector("input")
 const form = document.querySelector(".form")
 const submit = document.querySelector("#submit")
 const inventory = document.querySelector(".items-in-inventory")
+const imageContainer = document.querySelector(".img-container")
+const prevDay = document.querySelector(".prev")
+const nextDay = document.querySelector(".next")
 
-let items = {}
+
+let item = {}
+let itemBeAnArray = []
 form.addEventListener("submit", (event) => {
   event.preventDefault()
   const formData = new FormData(event.target)
 
-  items = {
+  item = {
     itemName: formData.get(`item-name`),
-    itemSell: formData.get(`sell-in`),
-    itemQuality: formData.get(`quality`),
-    itemCategory: "none"
+    itemSell: +formData.get(`sell-in`),
+    itemQuality: +formData.get(`quality`),
+    itemCategory: getCategory(formData.get("item-name"))
   }
 
+  itemBeAnArray.push(item)
   const subInventory = document.createElement("div")
-  inventory.append(subInventory)
-
   subInventory.innerHTML = `
-    <p class="item-name">${items.itemName}</p>
-    <p class="item-sell">${items.itemSell}</p>
-    <p class="item-quality">${items.itemQuality}</p>
+    <p class="item-name">${item.itemName}</p>
+    <p class="item-sell">${item.itemSell}</p>
+    <p class="item-quality">${item.itemQuality}</p>
     `
-
-  setCategory(items)
+  subInventory.classList.add("custom-item")
+  inventory.append(subInventory)
 })
 
-const imageContainer = document.querySelector(".img-container")
+nextDay.addEventListener("click", () => {
+  nextDay.style.color = "cyan";
+  subtractValues()
+  onNextChangeImage();
+})
+
 const imageBox = document.createElement("div")
 let clicks = 0
 
-function onClickPlus() {
+function onNextChangeImage() {
   clicks += 1;
-  if (clicks == 1) {
-    imageContainer.append(imageBox)
-    imageBox.innerHTML = `
-        <img src="images/nextday.jpg" alt="day1">
-      `
-  } else if (clicks == 2) {
-    imageBox.innerHTML = `
-        <img src="images/twodays.jpg" alt="day2">
-      `
-  } else if (clicks == 3) {
-    imageBox.innerHTML = `
-        <img src="images/threedays.jpg" alt="day3">
-      `
-  } else if (clicks >= 4) {
-    imageBox.innerHTML = `
-        <img src="images/somuchlater.jpg" alt="day4">
-      `
-  } else {
-    imageBox.innerHTML = `
-       <img src="images/dayone2.jpg" alt="day0" style="width: 70%;">
-      `
-  }
+  imageBox.innerHTML = getImage(clicks)
+  imageContainer.append(imageBox)
 }
 
 //this function subs to the same value as the last div
 function subtractValues() {
-  const sellDiv = document.querySelectorAll(".item-sell")
-  let sellNumber = items.itemSell--
-  [...sellDiv].forEach((div) => {
-    div.textContent = sellNumber
+  itemBeAnArray.forEach(object => {
+    const newInventoryItem = document.querySelector(".custom-item")
+    newInventoryItem.innerHTML = `
+    <p class="item-name">${object.itemName}</p>
+    <p class="item-sell">${object.itemSell - 1}</p>
+    <p class="item-quality">${object.itemQuality}</p>
+    `
+    object.itemSell--
+    inventory.append(newInventoryItem)
   })
 }
 
-const nextDay = document.querySelector(".next")
-nextDay.addEventListener("click", () => {
-  nextDay.style.color = "cyan";
-
-
-  subtractValues()
-  onClickPlus();
-})
-
-function onClickMinus() {
-  clicks -= 1;
-  if (clicks == 1) {
-    imageContainer.append(imageBox)
-    imageBox.innerHTML = `
-        <img src="images/nextday.jpg" alt="day1">
-      `
-  } else if (clicks == 2) {
-    imageBox.innerHTML = `
-        <img src="images/twodays.jpg" alt="day2">
-      `
-  } else if (clicks == 3) {
-    imageBox.innerHTML = `
-        <img src="images/threedays.jpg" alt="day3">
-      `
-  } else if (clicks >= 4) {
-    imageBox.innerHTML = `
-        <img src="images/somuchlater.jpg" alt="day4">
-      `
-  } else {
-    imageBox.innerHTML = `
-        <img src="images/dayone2.jpg" alt="day0" style="width: 30%;">
-      `
+function getImage(clickCount) {
+  switch (clickCount) {
+    case 0:
+      return `<img src="images/dayone2.jpg" alt="day0" style="width: 70%;">`
+      break
+    case 1:
+      return `<img src="images/nextday.jpg" alt="day1">`
+      break
+    case 2:
+      return `<img src="images/twodays.jpg" alt="day2">`
+      break
+    case 3:
+      return `<img src="images/threedays.jpg" alt="day3">`
+      break
+    default:
+      return `<img src="images/somuchlater.jpg" alt="day4">`
   }
 }
 
-const prevDay = document.querySelector(".prev")
 prevDay.addEventListener("click", () => {
   prevDay.style.color = "red";
-  onClickMinus()
+  onPrevChangeImage()
 })
 
-function setCategory(items) {
-  if (items.itemName.includes("Aged Brie") || items.itemName.includes("Backstage")) {
-    items.itemCategory = "aged-backstage"
-  } else if (items.itemName.includes("Sulfuras")) {
-    items.itemCategory = "sufluras"
-  } else if (items.itemName.includes("Conjured")) {
-    items.itemCategory = "conjured"
+function onPrevChangeImage() {
+  clicks -= 1;
+  imageBox.innerHTML = getImage(clicks)
+  imageContainer.append(imageBox)
+}
+
+function getCategory(itemName) {
+  if (itemName.includes("Aged Brie") || itemName.includes("aged brie")) {
+    return "aged"
+  } else if (itemName.includes("Sulfuras") || itemName.includes("sulfuras")) {
+    return "sulfuras"
+  } else if (itemName.includes("Conjured") || itemName.includes("conjured")) {
+    return "conjured"
+  } else if (itemName.includes("Backstage") || itemName.includes("backstage")) {
+    return "backstage"
   }
 }
