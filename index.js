@@ -20,8 +20,8 @@ form.addEventListener("submit", (event) => {
 
   subInventory.innerHTML = `
     <p class="item-name">${items.itemName}</p>
-    <p class="item-sell">${items.itemSell--}</p>
-    <p class="item-quality">${items.itemQuality--}</p>
+    <p class="item-sell">${items.itemSell}</p>
+    <p class="item-quality">${items.itemQuality}</p>
     `
 
   setCategory(items)
@@ -57,26 +57,21 @@ function onClickPlus() {
   }
 }
 
-
-const nextDay = document.querySelector(".next")
-nextDay.addEventListener("click", () => {
-  nextDay.style.color = "cyan";
-
+//this function subs to the same value as the last div
+function subtractValues() {
   const sellDiv = document.querySelectorAll(".item-sell")
   let sellNumber = items.itemSell--
   [...sellDiv].forEach((div) => {
     div.textContent = sellNumber
   })
+}
 
-  // sellDiv.textContent = sellNumber
+const nextDay = document.querySelector(".next")
+nextDay.addEventListener("click", () => {
+  nextDay.style.color = "cyan";
 
-  console.log(sellNumber)
-  sellDiv.textContent = sellNumber
 
-  const qualityDiv = document.querySelector(".item-quality")
-  let qualityNumber = items.itemQuality--
-  qualityDiv.textContent = qualityNumber
-
+  subtractValues()
   onClickPlus();
 })
 
