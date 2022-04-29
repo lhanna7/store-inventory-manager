@@ -9,6 +9,7 @@ const nameInput = document.querySelector("#item-name")
 const qualityInput = document.querySelector("#quality")
 const sellInput = document.querySelector("#sell-in")
 
+// text input qualifications
 nameInput.addEventListener("input", () => {
   if (nameInput.value.toLowerCase().includes("sulfuras")) {
     qualityInput.min = 80
@@ -20,6 +21,7 @@ nameInput.addEventListener("input", () => {
   }
 })
 
+//submit button actions
 let item = {}
 let itemToArray = []
 form.addEventListener("submit", (event) => {
@@ -44,6 +46,7 @@ form.addEventListener("submit", (event) => {
   inventory.append(subInventory)
 })
 
+//button for next day 
 nextDay.addEventListener("click", () => {
   nextDay.style.color = "cyan";
   qualityChangeNextDay();
@@ -52,15 +55,16 @@ nextDay.addEventListener("click", () => {
   qualityLimit(item);
 })
 
+// function placeholder for changing image on clicks (next day)
 const imageBox = document.createElement("div")
 let clicks = 0
-
 function onNextChangeImage() {
   clicks += 1;
   imageBox.innerHTML = getImage(clicks)
   imageContainer.append(imageBox)
 }
 
+// how to get quality #s to change (next day)
 function subtractValues() {
   itemToArray.forEach(object => {
     const newInventoryItem = document.querySelector(".custom-item")
@@ -74,6 +78,7 @@ function subtractValues() {
   })
 }
 
+// logic for next day, category based
 function qualityChangeNextDay() {
   itemToArray.forEach(object => {
     if (object.itemCategory === "aged") {
@@ -110,6 +115,7 @@ function qualityChangeNextDay() {
   })
 }
 
+//button for prev day 
 prevDay.addEventListener("click", () => {
   prevDay.style.color = "red";
   qualityChangePrevDay();
@@ -118,12 +124,14 @@ prevDay.addEventListener("click", () => {
   qualityLimit(item);
 })
 
+// function placeholder for changing image on clicks (prev day)
 function onPrevChangeImage() {
   clicks -= 1;
   imageBox.innerHTML = getImage(clicks)
   imageContainer.append(imageBox)
 }
 
+// how to get quality #s to change (next day)
 function addValues() {
   itemToArray.forEach(object => {
     const newInventoryItem = document.querySelector(".custom-item")
@@ -137,6 +145,7 @@ function addValues() {
   })
 }
 
+// logic for prev day, category based
 function qualityChangePrevDay() {
   itemToArray.forEach(object => {
     if (object.itemCategory === "aged") {
@@ -170,6 +179,7 @@ function qualityChangePrevDay() {
   })
 }
 
+// logic for >0 <50
 function qualityLimit(itemQuality) {
   console.log(itemQuality)
   if (itemQuality >= 49) {
@@ -181,6 +191,7 @@ function qualityLimit(itemQuality) {
   }
 }
 
+// logic for setting category name
 function getCategory(itemName) {
   if (itemName.includes("Aged Brie") || itemName.includes("aged brie")) {
     return "aged"
@@ -194,6 +205,7 @@ function getCategory(itemName) {
     return "none"
 }
 
+// logic for clicks/images
 function getImage(clickCount) {
   switch (clickCount) {
     case 0:
