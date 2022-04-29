@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Fuzzy+Bubbles:wght@700&family=Rampart+One&display=swap');
+
+* {
+    font-family: 'Fuzzy Bubbles', cursive;
+}
+
 body {
     background-image: url(images/sponge.jpg);
     background-size: cover;
@@ -7,8 +13,10 @@ body {
 h1 {
     font-size: 250%;
     text-align: center;
-    font-weight: bold;
+    font-weight: bolder;
     margin-top: 2%;
+    font-family: 'Rampart One', cursive;
+    color: rgb(1, 51, 117);
 }
 
 h2 {
@@ -23,6 +31,28 @@ h3 {
     flex-direction: row;
     font-weight: bold;
     color: rgb(6, 63, 139);
+}
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    margin-left: 20%;
+}
+
+.salty {
+    margin-left: 10%;
+}
+
+img {
+    padding-left: 10%;
+}
+
+figcaption {
+    padding-left: 16%;
+    color: rgb(34, 109, 34);
 }
 
 .form {
@@ -46,6 +76,7 @@ label {
     padding-bottom: 0.5%;
     font-size: 100%;
     color: rgb(6, 63, 139);
+    text-align: center;
 }
 
 .titles {

@@ -46,9 +46,10 @@ form.addEventListener("submit", (event) => {
 
 nextDay.addEventListener("click", () => {
   nextDay.style.color = "cyan";
-  qualityChangeNextDay()
-  subtractValues()
+  qualityChangeNextDay();
+  subtractValues();
   onNextChangeImage();
+  qualityLimit(item);
 })
 
 const imageBox = document.createElement("div")
@@ -75,28 +76,36 @@ function subtractValues() {
 
 function qualityChangeNextDay() {
   itemToArray.forEach(object => {
-    if (object.itemCategory === "none") {
-      object.itemQuality = object.itemQuality - 1
-    }
     if (object.itemCategory === "aged") {
       object.itemQuality = object.itemQuality + 1
     }
-    if (object.itemCategory === "backstage") {
+    else if (object.itemCategory === "backstage") {
       if (object.itemSell <= 10 && object.itemSell > 5) {
         object.itemQuality = object.itemQuality + 2
-      } else if (object.itemSell <= 5 && object.itemSell > 0) {
+      } else if (object.itemSell <= 5 && object.itemSell > 1) {
         object.itemQuality = object.itemQuality + 3
-      } else if (object.itemSell < 0) {
-        object.itemQuality = object.itemQuality * 0
+      } else if (object.itemSell <= 1) {
+        return object.itemQuality = 0
       } else {
         object.itemQuality = object.itemQuality + 1
       }
     }
-    if (object.itemCategory === "sulfuras") {
+    else if (object.itemCategory === "sulfuras") {
       return object.itemQuality = 80
     }
-    if (object.itemCategory === "conjured") {
-      object.itemQuality = object.itemQuality - 2
+    else if (object.itemCategory === "conjured") {
+      if (object.itemSell >= 1) {
+        object.itemQuality = object.itemQuality - 2
+      } else if (object.itemSell <= 0) {
+        object.itemQuality = object.itemQuality - 4
+      }
+    }
+    else {
+      if (object.itemSell >= 1) {
+        object.itemQuality = object.itemQuality - 1
+      } else if (object.itemSell <= 0) {
+        object.itemQuality = object.itemQuality - 2
+      }
     }
   })
 }
@@ -104,8 +113,9 @@ function qualityChangeNextDay() {
 prevDay.addEventListener("click", () => {
   prevDay.style.color = "red";
   qualityChangePrevDay();
+  addValues();
   onPrevChangeImage();
-  addValues()
+  qualityLimit(item);
 })
 
 function onPrevChangeImage() {
@@ -120,41 +130,50 @@ function addValues() {
     newInventoryItem.innerHTML = `
     <p class="item-name">${object.itemName}</p>
     <p class="item-sell">${object.itemSell + 1}</p>
-    <p class="item-quality">${object.itemQuality + 1}</p>
+    <p class="item-quality">${object.itemQuality}</p>
     `
     object.itemSell++
-    object.itemQuality++
     inventory.append(newInventoryItem)
   })
 }
 
-//this is not  working great
 function qualityChangePrevDay() {
   itemToArray.forEach(object => {
-    if (object.itemCategory === "none") {
-      object.itemQuality = object.itemQuality + 1
-    }
     if (object.itemCategory === "aged") {
       object.itemQuality = object.itemQuality - 1
-    }
-    if (object.itemCategory === "backstage") {
-      if (object.itemSell <= 10 && object.itemSell > 5) {
+    } else if (object.itemCategory === "backstage") {
+      if (object.itemSell <= 10 && object.itemSell >= 6) {
         object.itemQuality = object.itemQuality - 2
-      } else if (object.itemSell <= 5 && object.itemSell > 0) {
+      } else if (object.itemSell <= 5 && object.itemSell >= 1) {
         object.itemQuality = object.itemQuality - 3
-      } else if (object.itemSell < 0) {
-        object.itemQuality = object.itemQuality * 0
       } else {
         object.itemQuality = object.itemQuality - 1
       }
     }
-    if (object.itemCategory === "sulfuras") {
+    else if (object.itemCategory === "sulfuras") {
       return object.itemQuality = 80
     }
-    if (object.itemCategory === "conjured") {
+    else if (object.itemCategory === "conjured") {
       object.itemQuality = object.itemQuality + 2
     }
+    else {
+      object.itemQuality = object.itemQuality + 1
+    }
   })
+}
+
+function qualityLimit(item) {
+  if (item.itemQuality >= 49) {
+    return item.itemQuality = 49
+  } else if (item.itemQuality <= 1) {
+    return item.itemQuality = 1
+  }
+}
+
+function zeroDoubleDecay(item) {
+  if (item.itemSell = 0) {
+    return item.itemQuality * 2
+  }
 }
 
 function getCategory(itemName) {
