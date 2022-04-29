@@ -7,20 +7,21 @@ const prevDay = document.querySelector(".prev")
 const nextDay = document.querySelector(".next")
 const nameInput = document.querySelector("#item-name")
 const qualityInput = document.querySelector("#quality")
+const sellInput = document.querySelector("#sell-in")
 
-nameInput.addEventListener("input", event => {
+nameInput.addEventListener("input", () => {
   if (nameInput.value.toLowerCase().includes("sulfuras")) {
     qualityInput.min = 80
     qualityInput.max = 80
     qualityInput.value = 80
   } else {
-    itemQuality.max = 50
-    itemQuality.min = 0
+    qualityInput.value = 0
+    sellInput.value = 0
   }
 })
 
 let item = {}
-let itemBeAnArray = []
+let itemToArray = []
 form.addEventListener("submit", (event) => {
   event.preventDefault()
   const formData = new FormData(event.target)
@@ -32,7 +33,7 @@ form.addEventListener("submit", (event) => {
     itemCategory: getCategory(formData.get("item-name"))
   }
 
-  itemBeAnArray.push(item)
+  itemToArray.push(item)
   const subInventory = document.createElement("div")
   subInventory.innerHTML = `
     <p class="item-name">${item.itemName}</p>
@@ -45,9 +46,9 @@ form.addEventListener("submit", (event) => {
 
 nextDay.addEventListener("click", () => {
   nextDay.style.color = "cyan";
+  qualityChangeNextDay()
   subtractValues()
   onNextChangeImage();
-  qualityChangeNextDay()
 })
 
 const imageBox = document.createElement("div")
@@ -60,7 +61,7 @@ function onNextChangeImage() {
 }
 
 function subtractValues() {
-  itemBeAnArray.forEach(object => {
+  itemToArray.forEach(object => {
     const newInventoryItem = document.querySelector(".custom-item")
     newInventoryItem.innerHTML = `
     <p class="item-name">${object.itemName}</p>
@@ -73,37 +74,37 @@ function subtractValues() {
 }
 
 function qualityChangeNextDay() {
-  itemBeAnArray.forEach(object => {
+  itemToArray.forEach(object => {
     if (object.itemCategory === "none") {
-      let qualityDecrement = object.itemQuality - 1
-      object.itemQuality--
-      return qualityDecrement
+      object.itemQuality = object.itemQuality - 1
     }
     if (object.itemCategory === "aged") {
-      let qualityIncrement = object.itemQuality + 1
-      object.itemQuality++
-      return qualityIncrement
+      object.itemQuality = object.itemQuality + 1
     }
     if (object.itemCategory === "backstage") {
-      let qualityIncrement = object.itemQuality + 1
-      object.itemQuality++
-      return qualityIncrement
+      if (object.itemSell <= 10 && object.itemSell > 5) {
+        object.itemQuality = object.itemQuality + 2
+      } else if (object.itemSell <= 5 && object.itemSell > 0) {
+        object.itemQuality = object.itemQuality + 3
+      } else if (object.itemSell < 0) {
+        object.itemQuality = object.itemQuality * 0
+      } else {
+        object.itemQuality = object.itemQuality + 1
+      }
     }
     if (object.itemCategory === "sulfuras") {
       return object.itemQuality = 80
     }
     if (object.itemCategory === "conjured") {
-      let qualityDecrement = object.itemQuality - 2
-      object.itemQuality--
-      object.itemQuality--
-      return qualityDecrement
+      object.itemQuality = object.itemQuality - 2
     }
   })
 }
 
 prevDay.addEventListener("click", () => {
   prevDay.style.color = "red";
-  onPrevChangeImage()
+  qualityChangePrevDay();
+  onPrevChangeImage();
   addValues()
 })
 
@@ -114,7 +115,7 @@ function onPrevChangeImage() {
 }
 
 function addValues() {
-  itemBeAnArray.forEach(object => {
+  itemToArray.forEach(object => {
     const newInventoryItem = document.querySelector(".custom-item")
     newInventoryItem.innerHTML = `
     <p class="item-name">${object.itemName}</p>
@@ -127,6 +128,35 @@ function addValues() {
   })
 }
 
+//this is not  working great
+function qualityChangePrevDay() {
+  itemToArray.forEach(object => {
+    if (object.itemCategory === "none") {
+      object.itemQuality = object.itemQuality + 1
+    }
+    if (object.itemCategory === "aged") {
+      object.itemQuality = object.itemQuality - 1
+    }
+    if (object.itemCategory === "backstage") {
+      if (object.itemSell <= 10 && object.itemSell > 5) {
+        object.itemQuality = object.itemQuality - 2
+      } else if (object.itemSell <= 5 && object.itemSell > 0) {
+        object.itemQuality = object.itemQuality - 3
+      } else if (object.itemSell < 0) {
+        object.itemQuality = object.itemQuality * 0
+      } else {
+        object.itemQuality = object.itemQuality - 1
+      }
+    }
+    if (object.itemCategory === "sulfuras") {
+      return object.itemQuality = 80
+    }
+    if (object.itemCategory === "conjured") {
+      object.itemQuality = object.itemQuality + 2
+    }
+  })
+}
+
 function getCategory(itemName) {
   if (itemName.includes("Aged Brie") || itemName.includes("aged brie")) {
     return "aged"
@@ -134,7 +164,7 @@ function getCategory(itemName) {
     return "sulfuras"
   } else if (itemName.includes("Conjured") || itemName.includes("conjured")) {
     return "conjured"
-  } else if (itemName.includes("Backstage Passes") || itemName.includes("backstage passes")) {
+  } else if (itemName.includes("Backstage Pass") || itemName.includes("backstage pass")) {
     return "backstage"
   } else
     return "none"
