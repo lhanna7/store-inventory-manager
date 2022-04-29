@@ -181,12 +181,6 @@ function qualityLimit(itemQuality) {
   }
 }
 
-function zeroDoubleDecay(item) {
-  if (item.itemSell = 0) {
-    return item.itemQuality * 2
-  }
-}
-
 function getCategory(itemName) {
   if (itemName.includes("Aged Brie") || itemName.includes("aged brie")) {
     return "aged"
