@@ -33,12 +33,31 @@ h3 {
     color: rgb(6, 63, 139);
 }
 
+h4 {
+    margin: 2%;
+    color: rgb(6, 63, 139);
+    ;
+}
+
+.desc-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin-top: 3%;
+    padding: 3%;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.desc {
+    color: rgb(213, 44, 255);
+}
+
 .main-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
     margin-bottom: 5%;
-    margin-top: 5%;
     margin-left: 20%;
 }
 
