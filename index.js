@@ -66,7 +66,7 @@ function subtractValues() {
     const newInventoryItem = document.querySelector(".custom-item")
     newInventoryItem.innerHTML = `
     <p class="item-name">${object.itemName}</p>
-    <p class="item-sell">${object.itemSell - 1}</p>
+    <p class="item-sell">${object.itemSell}</p>
     <p class="item-quality">${object.itemQuality}</p>
     `
     object.itemSell--
@@ -95,15 +95,15 @@ function qualityChangeNextDay() {
     }
     else if (object.itemCategory === "conjured") {
       if (object.itemSell >= 1) {
-        object.itemQuality = object.itemQuality - 2
+        object.itemQuality = qualityLimit(object.itemQuality - 2)
       } else if (object.itemSell <= 0) {
-        object.itemQuality = object.itemQuality - 4
+        object.itemQuality = qualityLimit(object.itemQuality - 4)
       }
     }
     else {
-      if (object.itemSell >= 1) {
+      if (object.itemSell > 0) {
         object.itemQuality = object.itemQuality - 1
-      } else if (object.itemSell <= 0) {
+      } else {
         object.itemQuality = object.itemQuality - 2
       }
     }
@@ -154,19 +154,30 @@ function qualityChangePrevDay() {
       return object.itemQuality = 80
     }
     else if (object.itemCategory === "conjured") {
-      object.itemQuality = object.itemQuality + 2
+      if (object.itemSell >= 1) {
+        object.itemQuality = qualityLimit(object.itemQuality + 2)
+      } else if (object.itemSell <= 0) {
+        object.itemQuality = qualityLimit(object.itemQuality + 4)
+      }
     }
     else {
-      object.itemQuality = object.itemQuality + 1
+      if (object.itemSell > 0) {
+        object.itemQuality = object.itemQuality + 1
+      } else {
+        object.itemQuality = object.itemQuality + 2
+      }
     }
   })
 }
 
-function qualityLimit(item) {
-  if (item.itemQuality >= 49) {
-    return item.itemQuality = 49
-  } else if (item.itemQuality <= 1) {
-    return item.itemQuality = 1
+function qualityLimit(itemQuality) {
+  console.log(itemQuality)
+  if (itemQuality >= 49) {
+    return 50
+  } else if (itemQuality <= 1) {
+    return 0
+  } else {
+    return itemQuality
   }
 }
 
