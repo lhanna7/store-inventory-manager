@@ -194,3 +194,5 @@ function getImage(clickCount) {
       return `<img src="images/somuchlater.jpg" alt="day4">`
   }
 }
+
+
