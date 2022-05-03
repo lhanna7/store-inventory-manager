@@ -148,3 +148,7 @@ label {
 img {
     width: 50%;
 }
+
+.hidden {
+    visibility: hidden;
+}
