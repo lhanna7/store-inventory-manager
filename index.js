@@ -72,8 +72,6 @@ function subtractValues() {
     <p class="item-sell">${object.itemSell}</p>
     <p class="item-quality">${object.itemQuality}</p>
     `
-
-    console.log(object.itemSell)
     inventory.append(newInventoryItem)
   })
 }
@@ -81,11 +79,11 @@ function subtractValues() {
 function qualityChangeNextDay() {
   inventoryArray.forEach(object => {
     if (object.itemCategory === "aged" || object.itemCategory === "backstage" && object.itemSell > 10) {
-      object.itemQuality = object.itemQuality + 1
+      object.itemQuality = qualityLimit(object.itemQuality + 1)
     } else if (object.itemCategory === "backstage" && object.itemSell <= 10 && object.itemSell > 5) {
-      object.itemQuality = object.itemQuality + 2
+      object.itemQuality = qualityLimit(object.itemQuality + 2)
     } else if (object.itemCategory === "backstage" && object.itemSell <= 5 && object.itemSell > 1) {
-      object.itemQuality = object.itemQuality + 3
+      object.itemQuality = qualityLimit(object.itemQuality + 3)
     } else if (object.itemCategory === "backstage" && object.itemSell <= 0) {
       return object.itemQuality = 0
     } else if (object.itemCategory === "sulfuras") {
@@ -95,9 +93,9 @@ function qualityChangeNextDay() {
     } else if (object.itemCategory === "conjured" && object.itemSell <= 0) {
       object.itemQuality = qualityLimit(object.itemQuality - 4)
     } else if (object.itemCategory === "none" && object.itemSell > 0) {
-      object.itemQuality = object.itemQuality - 1
+      object.itemQuality = qualityLimit(object.itemQuality - 1)
     } else {
-      object.itemQuality = object.itemQuality - 2
+      object.itemQuality = qualityLimit(object.itemQuality - 2)
     }
   })
 }
@@ -132,11 +130,11 @@ function addValues() {
 function qualityChangePrevDay() {
   inventoryArray.forEach(object => {
     if (object.itemCategory === "aged" || object.itemCategory === "backstage" && object.itemSell > 10) {
-      object.itemQuality = object.itemQuality - 1
+      object.itemQuality = qualityLimit(object.itemQuality - 1)
     } else if (object.itemCategory === "backstage" && object.itemSell <= 10 && object.itemSell > 5) {
-      object.itemQuality = object.itemQuality - 2
+      object.itemQuality = qualityLimit(object.itemQuality - 2)
     } else if (object.itemCategory === "backstage" && object.itemSell <= 5 && object.itemSell > 1) {
-      object.itemQuality = object.itemQuality - 3
+      object.itemQuality = qualityLimit(object.itemQuality - 3)
     } else if (object.itemCategory === "backstage" && object.itemSell <= 0) {
       return object.itemQuality = 0
     } else if (object.itemCategory === "sulfuras") {
@@ -146,9 +144,9 @@ function qualityChangePrevDay() {
     } else if (object.itemCategory === "conjured" && object.itemSell <= 0) {
       object.itemQuality = qualityLimit(object.itemQuality + 4)
     } else if (object.itemCategory === "none" && object.itemSell > 0) {
-      object.itemQuality = object.itemQuality + 1
+      object.itemQuality = qualityLimit(object.itemQuality + 1)
     } else {
-      object.itemQuality = object.itemQuality + 2
+      object.itemQuality = qualityLimit(object.itemQuality + 2)
     }
   })
 }
